@@ -8,13 +8,14 @@ User = get_user_model()
 class Recipe(models.Model):
     author = models.ForeignKey(
         "User",
+        verbose_name='Автор'
     )
-    name = models.CharField('название рецепта', max_length=200)
-    image = models.ImageField()
-    text = models.TextField('описание')
+    name = models.CharField('Название рецепта', max_length=200)
+    image = models.ImageField('Фото')
+    text = models.TextField('Описание')
     ingredients =
     tags =
-    cooking_time =
+    cooking_time = models.IntegerField('Время в минутах')
 
     class Meta:
         verbose_name = 'Рецепт'
@@ -25,9 +26,9 @@ class Recipe(models.Model):
 
 
 class Teg(models.Model):
-    name = models.CharField('тег', max_length=200)
-    color =
-    slug = models.SlugField('слаг', unique=True)
+    name = models.CharField('Тег', max_length=200)
+    color = models.CharField('Цвет')
+    slug = models.SlugField('Слаг', unique=True)
 
     class Meta:
         verbose_name = 'Тег'
@@ -38,9 +39,9 @@ class Teg(models.Model):
 
 
 class Ingredient(models.Model):
-    name = models.CharField('ингредиенты', max_length=200)
-    amount = models.IntegerField('количество', )
-    measurement_unit = ('ед.измерения')
+    name = models.CharField('Ингредиент', max_length=200)
+    amount = models.IntegerField('Количество')
+    measurement_unit = models.CharField('Ед.измерения')
 
     class Meta:
         verbose_name = 'Ингредиент'
