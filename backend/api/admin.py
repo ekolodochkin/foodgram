@@ -15,7 +15,6 @@ class RecipeAdmin(admin.ModelAdmin):
     ordering = ('-id',)
 
 
-
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'measurement_unit')
