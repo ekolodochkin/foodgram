@@ -13,7 +13,7 @@ class Tag(models.Model):
     YELLOW = 'fffb00'
     PURPLE = 'e600ff'
 
-    color_choise = [
+    COLOR_CHOISE = [
         (RED, 'Красный'),
         (BLUE, 'Синий'),
         (GREEN, 'Зеленый'),
@@ -25,7 +25,7 @@ class Tag(models.Model):
     color = models.CharField(
         'Цвет в HEX',
         unique=True,
-        choices=color_choise
+        choices=COLOR_CHOISE
     )
     slug = models.SlugField('Слаг', unique=True, max_length=50)
 
