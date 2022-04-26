@@ -48,7 +48,7 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
-        
+
 
 class Recipe(models.Model):
     author = models.ForeignKey(
@@ -82,3 +82,5 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.name
+
+# Подписки / избранное / список покупок
