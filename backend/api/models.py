@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.contrib.auth import get_user_model
@@ -87,7 +88,7 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
 
-# Подписки / избранное / список покупок
+# список покупок
 
 class Favorite(models.Model):
     user = models.ForeignKey(
@@ -108,8 +109,20 @@ class Favorite(models.Model):
 
 
 class Follow(models.Model):
-    author =
-    user =
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Автор',
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='подписчик',
+    )
+
+    class Meta:
+        verbose_name = 'Подписчик'
+        verbose_name_plural = 'Подписчики'
 
 class ShoppingList(models.Model):
     ingredients =
