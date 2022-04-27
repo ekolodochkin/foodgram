@@ -9,10 +9,12 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'author')
+    list_display = ('name', 'author', 'add_favorite')
     search_fields = ('author', 'name', 'tags')
     ordering = ('-id',)
-
+    
+    def add_favorite(self, obj):
+        return obj.favorites.count()
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
