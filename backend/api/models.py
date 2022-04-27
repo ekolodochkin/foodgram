@@ -52,6 +52,10 @@ class Ingredient(models.Model):
     class Meta:
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'measurement_unit'],
+                                    name='unique_ingredient')
+        ]
 
     def __str__(self):
         return self.name
@@ -109,6 +113,10 @@ class Favorite(models.Model):
     class Meta:
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранные'
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'recipe'],
+                                    name='unique_favorite')
+        ]
 
 
 class Follow(models.Model):
@@ -127,6 +135,11 @@ class Follow(models.Model):
     class Meta:
         verbose_name = 'Подписчик'
         verbose_name_plural = 'Подписчики'
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "author"], name="unique_follow_user"
+            )
+        ]
 
 # список покупок
 
