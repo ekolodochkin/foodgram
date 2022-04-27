@@ -39,7 +39,11 @@ class Tag(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField('Ингредиент', max_length=200)
-    amount = models.IntegerField('Количество')
+    amount = models.IntegerField(models.PositiveIntegerField(
+        'Количество',
+        validators=[MinValueValidator(1, 'Минимальное количество 1')]
+        )
+    )
     measurement_unit = models.CharField('Ед.измерения веса', max_length=3)
 
     class Meta:
@@ -84,3 +88,28 @@ class Recipe(models.Model):
         return self.name
 
 # Подписки / избранное / список покупок
+
+class Favorite(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='favorites',
+        verbose_name='Рецепт',
+    )
+
+    class Meta:
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранные'
+
+
+class Follow(models.Model):
+    author =
+    user =
+
+class ShoppingList(models.Model):
+    ingredients =
