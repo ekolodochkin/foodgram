@@ -4,7 +4,7 @@ from .models import Tag, Recipe, Ingredient, Favorite, Follow, ShoppingList
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('__all__')
+    list_display = ('name', 'color', 'slug')
 
 
 @admin.register(Recipe)
