@@ -1,6 +1,5 @@
-from tabnanny import verbose
-from django.db import models
 from django.core.validators import MinValueValidator
+from django.db import models
 from django.contrib.auth import get_user_model
 
 
@@ -8,7 +7,8 @@ User = get_user_model()
 
 
 class Tag(models.Model):
-    '''Теги - теги на выбор из определенных цвецов в формате HEX'''
+    ''' -- Теги - теги на выбор из определенных цвецов в формате HEX -- '''
+
     RED = 'ff0000'
     BLUE = '0037ff'
     GREEN = '37ff00'
@@ -40,7 +40,8 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
-    '''Ингредиенты'''
+    ''' -- Ингредиенты -- '''
+
     name = models.CharField('Ингредиент', max_length=200)
     amount = models.IntegerField(models.PositiveIntegerField(
         'Количество',
@@ -53,8 +54,10 @@ class Ingredient(models.Model):
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
         constraints = [
-            models.UniqueConstraint(fields=['name', 'measurement_unit'],
-                                    name='unique_ingredient')
+            models.UniqueConstraint(
+                fields=['name', 'measurement_unit'],
+                name='unique_ingredient'
+            )
         ]
 
     def __str__(self):
@@ -62,7 +65,8 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    '''Рецепт'''
+    ''' -- Рецепт -- '''
+
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -97,7 +101,8 @@ class Recipe(models.Model):
 
 
 class Favorite(models.Model):
-    '''Избранное'''
+    ''' -- Избранное -- '''
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -114,13 +119,16 @@ class Favorite(models.Model):
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранные'
         constraints = [
-            models.UniqueConstraint(fields=['user', 'recipe'],
-                                    name='unique_favorite')
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='unique_favorite'
+            )
         ]
 
 
 class Follow(models.Model):
-    '''Подписка'''
+    ''' -- Подписка -- '''
+
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -137,7 +145,8 @@ class Follow(models.Model):
         verbose_name_plural = 'Подписчики'
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "author"], name="unique_follow_user"
+                fields=["user", "author"],
+                name="unique_follow_user"
             )
         ]
 
@@ -145,5 +154,6 @@ class Follow(models.Model):
 
 
 class ShoppingList(models.Model):
-    '''Список покупок'''
+    ''' -- Список покупок --'''
+
     ingredients =
