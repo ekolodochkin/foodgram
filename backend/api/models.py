@@ -179,7 +179,7 @@ class ShoppingList(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'recipe'],
-                name='unique cart user'
+                name='unique_recipe_user'
             )
         ]
 
