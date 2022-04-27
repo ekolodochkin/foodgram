@@ -8,6 +8,7 @@ User = get_user_model()
 
 
 class Tag(models.Model):
+    '''Теги - теги на выбор из определенных цвецов в формате HEX'''
     RED = 'ff0000'
     BLUE = '0037ff'
     GREEN = '37ff00'
@@ -39,6 +40,7 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
+    '''Ингредиенты'''
     name = models.CharField('Ингредиент', max_length=200)
     amount = models.IntegerField(models.PositiveIntegerField(
         'Количество',
@@ -56,6 +58,7 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
+    '''Рецепт'''
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -88,9 +91,9 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
 
-# список покупок
 
 class Favorite(models.Model):
+    '''Избранное'''
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -109,6 +112,7 @@ class Favorite(models.Model):
 
 
 class Follow(models.Model):
+    '''Подписка'''
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -124,5 +128,9 @@ class Follow(models.Model):
         verbose_name = 'Подписчик'
         verbose_name_plural = 'Подписчики'
 
+# список покупок
+
+
 class ShoppingList(models.Model):
+    '''Список покупок'''
     ingredients =
