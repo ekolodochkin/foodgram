@@ -125,6 +125,9 @@ class Favorite(models.Model):
             )
         ]
 
+    def __str__(self):
+        return f' {self.user} добавил в избранное {self.recipe}'
+
 
 class Follow(models.Model):
     ''' -- Подписка -- '''
@@ -150,10 +153,35 @@ class Follow(models.Model):
             )
         ]
 
-# список покупок
+    def __str__(self):
+        return f' на {self.author} подписался {self.user}'
 
 
 class ShoppingList(models.Model):
     ''' -- Список покупок --'''
 
-    ingredients =
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        verbose_name='Рецепт',
+        related_name='shoppinglist',
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='shoppinglist',
+    )
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = 'Список покупок'
+        verbose_name_plural = 'Списки покупок'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='unique cart user'
+            )
+        ]
+
+    def __str__(self):
+        return f'{self.user} добавил в список покупок {self.recipe}'
