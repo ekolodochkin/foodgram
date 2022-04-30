@@ -92,3 +92,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+# с dj(3.2) для неявного первичного ключа
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
