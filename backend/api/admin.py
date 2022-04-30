@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tag, Recipe, Ingredient, Favorite, Follow, ShoppingList
+from .models import AmountIngredient, Tag, Recipe, Ingredient, Favorite, Follow, ShoppingList
 
 
 @admin.register(Tag)
@@ -12,9 +12,10 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'author', 'add_favorite')
     search_fields = ('author', 'name', 'tags')
     ordering = ('-id',)
-    
+
     def add_favorite(self, obj):
         return obj.favorites.count()
+
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
@@ -25,3 +26,4 @@ class IngredientAdmin(admin.ModelAdmin):
 admin.site.register(Favorite)
 admin.site.register(Follow)
 admin.site.register(ShoppingList)
+admin.site.register(AmountIngredient)
