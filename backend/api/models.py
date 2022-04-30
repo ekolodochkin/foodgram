@@ -44,11 +44,6 @@ class Ingredient(models.Model):
     ''' -- Ингредиенты -- '''
 
     name = models.CharField('Ингредиент', max_length=200)
-    amount = models.IntegerField(models.PositiveIntegerField(
-        'Количество',
-        validators=[MinValueValidator(1, 'Минимальное количество 1')]
-        )
-    )
     measurement_unit = models.CharField('Ед.измерения веса', max_length=3)
 
     class Meta:
@@ -188,3 +183,33 @@ class ShoppingList(models.Model):
 
     def __str__(self):
         return f'{self.user} добавил в список покупок {self.recipe}'
+
+
+class AmountIngredient(models.Model):
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE,
+        verbose_name='Ингридиент',
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        verbose_name='Рецепт',
+    )
+    amount = models.PositiveIntegerField(
+        'Количество',
+        validators=[MinValueValidator(1, 'Минимальное количество 1')]
+    )
+
+    class Meta:
+        verbose_name = 'Количество ингридиента'
+        verbose_name_plural = 'Количество ингридиентов'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['ingredient', 'recipe'],
+                name='unique_amount_ingredient'
+            )
+        ]
+
+    def __str__(self):
+        return f'{self.recipe} -> {self.ingredient} - {self.amount}'
