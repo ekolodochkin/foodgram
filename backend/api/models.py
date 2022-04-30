@@ -74,6 +74,7 @@ class Recipe(models.Model):
     text = models.TextField('Описание', max_length=1000)
     ingredients = models.ManyToManyField(
         Ingredient,
+        through='AmountIngredient',
         related_name='recipes',
         verbose_name='Ингредиенты'
     )
@@ -186,6 +187,8 @@ class ShoppingList(models.Model):
 
 
 class AmountIngredient(models.Model):
+    ' -- Промежуточная модель для хранения количества ингредиентов -- '
+
     ingredient = models.ForeignKey(
         Ingredient,
         on_delete=models.CASCADE,
