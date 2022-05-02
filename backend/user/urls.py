@@ -1,3 +1,15 @@
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
+
+router = DefaultRouter()
+router.register('users', )
+
+
+urlpatterns = [
+    path('', include(router.urls)),
+]
+
 # Юзер (get post)
 # http://localhost/api/users/
 # http://localhost/api/users/{id}/
