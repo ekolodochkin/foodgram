@@ -27,7 +27,9 @@ INSTALLED_APPS = [
 
     # Pip install
     'rest_framework',
+    'rest_framework.authtoken',
     'djoser',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -101,5 +103,12 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
-# с dj(3.2) для неявного первичного ключа
+# с dj(4.0) для неявного первичного ключа
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
