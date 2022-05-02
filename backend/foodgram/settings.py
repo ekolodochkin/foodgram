@@ -27,6 +27,7 @@ INSTALLED_APPS = [
 
     # Pip install
     'rest_framework',
+    'djoser',
 ]
 
 MIDDLEWARE = [
