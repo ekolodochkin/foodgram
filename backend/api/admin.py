@@ -17,6 +17,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
     def add_favorite(self, obj):
         return obj.favorites.count()
+    add_favorite.short_description = 'Добавлено в избранное'
 
 
 @admin.register(Ingredient)
