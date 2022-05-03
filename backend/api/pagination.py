@@ -1,6 +1,6 @@
 from rest_framework.pagination import PageNumberPagination
 
 
-class MyPaginator(PageNumberPagination):
+class MyPagination(PageNumberPagination):
     page_size = 6
 
