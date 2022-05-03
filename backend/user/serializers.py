@@ -32,9 +32,9 @@ class AccountCreateSerializers(serializers.ModelSerializer):
         ]
 
 
-class SubscribeSerializers(serializers.ModelSerializer):
+# class SubscribeSerializers(serializers.ModelSerializer):
 
 
-    class Meta:
-        model = User
+#     class Meta:
+#         model = User
         
