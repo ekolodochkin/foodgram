@@ -30,3 +30,6 @@ admin.site.register(Favorite)
 admin.site.register(Follow)
 admin.site.register(ShoppingList)
 admin.site.register(AmountIngredient)
+
+admin.site.site_title = 'Админ-панель сайта Foodgram'
+admin.site.site_header = 'Админ-панель сайта Foodgram'
