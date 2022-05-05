@@ -35,7 +35,7 @@ class UserRegSerializers(serializers.ModelSerializer):
 
 
 class UserSerializers(serializers.ModelSerializer):
-    """ Юзер + подписк """
+    """ Юзер + подписчик """
 
     is_subscribed = serializers.SerializerMethodField()
 
@@ -52,3 +52,29 @@ class UserSerializers(serializers.ModelSerializer):
                 user=subscribe
             ).exists()
         return False
+
+
+# class SubscribeSerializer(serializers.ModelSerializer):
+#     is_subscribed = serializers.SerializerMethodField()
+#     recipes = RecipePartialSerializer(many=True)
+#     recipes_count = serializers.SerializerMethodField()
+
+#     class Meta:
+#         model = User
+#         fields = ('email', 'id', 'username', 'first_name', 'last_name',
+#                   'is_subscribed', 'recipes', 'recipes_count')
+#         read_only_fields = ('email', 'id', 'username', 'first_name',
+#                             'last_name', 'is_subscribed', 'recipes',
+#                             'recipes_count')
+
+#     def get_is_subscribed(self, subscribe):
+#         user = self.context['request'].user
+#         if user.is_authenticated:
+#             return Subscription.objects.filter(
+#                 user=user,
+#                 subscribe=subscribe
+#             ).exists()
+#         return False
+
+#     def get_recipes_count(self, subscribe):
+#         return subscribe.recipes.count()
