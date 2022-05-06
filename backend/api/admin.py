@@ -2,6 +2,15 @@ from django.contrib import admin
 from .models import (
     AmountIngredient, Tag, Recipe, Ingredient, Favorite, Follow, ShoppingList
 )
+from user.models import CustomUser
+
+
+@admin.register(CustomUser)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'email', 'username', 'first_name', 'last_name')
+    list_display_links = ('id', 'email', 'username')
+    search_fields = ('email', 'username')
+    list_filter = ('email', 'username')
 
 
 @admin.register(Tag)
