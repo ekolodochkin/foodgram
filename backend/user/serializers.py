@@ -33,11 +33,14 @@ class UserRegSerializers(serializers.ModelSerializer):
             )
         ]
 
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
+
 
 class UserSerializers(serializers.ModelSerializer):
     """ Юзер + подписчик """
 
-    is_subscribed = serializers.SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
