@@ -13,7 +13,7 @@ class UserRegSerializers(serializers.ModelSerializer):
         validators=[validators.UniqueValidator(queryset=User.objects.all())])
     email = serializers.EmailField(
         validators=[validators.UniqueValidator(queryset=User.objects.all())])
-    password = serializers.CharField(min_length=150)
+    password = serializers.CharField(max_length=150)
 
     class Meta:
         model = User
