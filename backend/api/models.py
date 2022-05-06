@@ -1,9 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.contrib.auth import get_user_model
-
-
-User = get_user_model()
+from user.models import CustomUser
 
 
 class Tag(models.Model):
@@ -64,7 +61,7 @@ class Recipe(models.Model):
     ''' -- Рецепт -- '''
 
     author = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='recipes',
         verbose_name='Автор'
@@ -101,7 +98,7 @@ class Favorite(models.Model):
     ''' -- Избранное -- '''
 
     user = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
     )
@@ -130,13 +127,13 @@ class Follow(models.Model):
     ''' -- Подписка -- '''
 
     author = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='following',
         verbose_name='Автор',
     )
     user = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='follower',
         verbose_name='подписчик',
@@ -166,7 +163,7 @@ class ShoppingList(models.Model):
         related_name='shoppinglist',
     )
     user = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='shoppinglist',
     )

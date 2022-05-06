@@ -105,6 +105,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # с dj(4.0) для неявного первичного ключа
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
+AUTH_USER_MODEL = 'user.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
