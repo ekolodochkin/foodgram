@@ -1,15 +1,11 @@
 from rest_framework.response import Response
-from rest_framework import mixins, filters, permissions, status, views, viewsets
+from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.decorators import action
-from django.contrib.auth import get_user_model
+from .models import CustomUser
 from .serializers import UserRegSerializers, UserSerializers
 from api.pagination import MyPagination
 from djoser.serializers import SetPasswordSerializer
 from .permissions import ForAuthUserOrAllowAny
-
-
-
-User = get_user_model()
 
 
 class CreateRetrieveListViewSet(mixins.CreateModelMixin,
@@ -20,7 +16,13 @@ class CreateRetrieveListViewSet(mixins.CreateModelMixin,
 
 
 class UserViewSet(CreateRetrieveListViewSet):
-    queryset = User.objects.all()
+    '''
+    View для регистрации, вывода пользователей.
+    Добавлены поинты me, set_password.
+    Добавлен get_serializer_class для исп.разных сериализаторов
+    '''
+
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializers
     pagination_class = MyPagination
     permission_classes = [ForAuthUserOrAllowAny]
