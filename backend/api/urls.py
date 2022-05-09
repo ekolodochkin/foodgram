@@ -1,12 +1,12 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from .views import TagViewSet
+from .views import TagViewSet, IngredientViewSet, RecipeViewSet
 
 
 router = DefaultRouter()
-# router.register('recipes', )
+router.register('recipes', RecipeViewSet)
 router.register('tags', TagViewSet)
-# router.register('ingredients', )
+router.register('ingredients', IngredientViewSet)
 
 
 urlpatterns = [
@@ -20,9 +20,6 @@ urlpatterns = [
 #
 #
 #
-#Теги (get)
-# http://localhost/api/tags/
-# http://localhost/api/tags/{id}/
 #
 # Список покупок(get post del)
 # http://localhost/api/recipes/download_shopping_cart/
