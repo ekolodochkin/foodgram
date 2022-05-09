@@ -4,7 +4,7 @@ from user.models import CustomUser
 
 
 class Tag(models.Model):
-    ''' -- Теги - теги на выбор из определенных цвецов в формате HEX -- '''
+    """ -- Теги - теги на выбор из определенных цвецов в формате HEX -- """
 
     RED = 'ff0000'
     BLUE = '0037ff'
@@ -38,7 +38,7 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
-    ''' -- Ингредиенты -- '''
+    """ -- Ингредиенты -- """
 
     name = models.CharField('Ингредиент', max_length=200)
     measurement_unit = models.CharField('Ед.измерения веса', max_length=3)
@@ -58,7 +58,7 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    ''' -- Рецепт -- '''
+    """ -- Рецепт -- """
 
     author = models.ForeignKey(
         CustomUser,
@@ -95,7 +95,7 @@ class Recipe(models.Model):
 
 
 class Favorite(models.Model):
-    ''' -- Избранное -- '''
+    """ -- Избранное -- """
 
     user = models.ForeignKey(
         CustomUser,
@@ -124,7 +124,7 @@ class Favorite(models.Model):
 
 
 class Follow(models.Model):
-    ''' -- Подписка -- '''
+    """ -- Подписка -- """
 
     author = models.ForeignKey(
         CustomUser,
@@ -154,7 +154,7 @@ class Follow(models.Model):
 
 
 class ShoppingList(models.Model):
-    ''' -- Список покупок --'''
+    """ -- Список покупок -- """
 
     recipe = models.ForeignKey(
         Recipe,
@@ -184,7 +184,7 @@ class ShoppingList(models.Model):
 
 
 class AmountIngredient(models.Model):
-    ' -- Промежуточная модель для хранения количества ингредиентов -- '
+    """ -- Промежуточная модель для хранения количества ингредиентов -- """
 
     ingredient = models.ForeignKey(
         Ingredient,

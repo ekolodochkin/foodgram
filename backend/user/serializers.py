@@ -7,7 +7,7 @@ User = get_user_model()
 
 
 class UserRegSerializers(serializers.ModelSerializer):
-    """ Регистрация юзера """
+    """ -- Регистрация юзера -- """
 
     username = serializers.CharField(
         validators=[validators.UniqueValidator(queryset=User.objects.all())])
@@ -39,7 +39,7 @@ class UserRegSerializers(serializers.ModelSerializer):
 
 
 class UserSerializers(serializers.ModelSerializer):
-    """ Юзер + подписчик """
+    """ -- Юзер + подписчик -- """
 
     is_subscribed = serializers.SerializerMethodField(read_only=True)
 
