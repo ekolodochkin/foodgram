@@ -1,9 +1,12 @@
-from rest_framework.response import Response
 from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.decorators import action
-from .models import Tag, Ingredient, Recipe
-from .serializers import TagSerializers, IngredientSerializers, RecipeSerializers
+from rest_framework.response import Response
+
+from .models import Ingredient, Recipe, Tag
 from .pagination import MyPagination
+from .serializers import (IngredientSerializers, RecipeSerializers,
+                          TagSerializers)
+
 # from .permissions import 
 
 
@@ -21,3 +24,5 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     pagination_class = MyPagination
     serializer_class = RecipeSerializers
+
+
