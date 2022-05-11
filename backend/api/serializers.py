@@ -1,10 +1,12 @@
-from rest_framework import serializers
-from .models import Tag, Recipe, ShoppingList, Ingredient, Favorite, AmountIngredient
-from user.serializers import UserSerializers
 import base64
-from rest_framework.validators import UniqueTogetherValidator
 
 from django.core.files.base import ContentFile
+from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
+from user.serializers import UserSerializers
+
+from .models import (AmountIngredient, Favorite, Ingredient, Recipe,
+                     ShoppingList, Tag)
 
 
 class TagSerializers(serializers.ModelSerializer):
@@ -45,7 +47,7 @@ class AmountIngredientSerializers(serializers.ModelSerializer):
 
 
 class Base64Serializers(serializers.ImageField):
-    """ -- Кодировка картинки --"""
+    """ -- Кодировка картинки -- """
 
     def from_native(self, data):
         if isinstance(data, basestring) and data.startswith('data:image'):
@@ -83,5 +85,36 @@ class RecipeSerializers(serializers.ModelSerializer):
             return ShoppingList.objects.filter(user=user, recipe=recipe).exists()
         return False
 
+    def create_ingredients(ingredients_data, recipe):
+        for ingredient in ingredients_data:
+            AmountIngredient.objects.create(
+                recipe=recipe,
+                amount = ingredients_data.get('amount'),
+                ingredient_id=ingredient.get('id')
+            )
 
-# class RecipeCreateSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        image_data = validated_data.pop('image')
+        ingredients_data = validated_data.pop('ingredients')
+        recipe = Recipe.objects.create(image=image_data, **validated_data)
+        tags_data = self.initial_data.get('tags')
+        recipe.tags.set(tags_data)
+        self.create_ingredients(ingredients_data, recipe)
+        return recipe
+
+    
+    def update(self, instance, validated_data):
+        return
+
+
+
+
+class RecipeForFollowSerializer(serializers.ModelSerializer):
+    """ -- Рецепт для FollowSerializer -- """
+
+    image = Base64Serializers()
+
+    class Meta:
+        model = Recipe
+        fields = ('id', 'name', 'image', 'cooking_time')
+        read_only_fields = ('id', 'name', 'image', 'cooking_time')
