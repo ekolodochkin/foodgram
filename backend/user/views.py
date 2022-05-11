@@ -1,11 +1,12 @@
-from rest_framework.response import Response
-from rest_framework import mixins, permissions, status, viewsets
-from rest_framework.decorators import action
-from .models import CustomUser
-from .serializers import UserRegSerializers, UserSerializers
 from api.pagination import MyPagination
 from djoser.serializers import SetPasswordSerializer
+from rest_framework import mixins, permissions, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from .models import CustomUser
 from .permissions import ForAuthUserOrAllowAny
+from .serializers import UserRegSerializers, UserSerializers
 
 
 class CreateRetrieveListViewSet(mixins.CreateModelMixin,
@@ -16,11 +17,11 @@ class CreateRetrieveListViewSet(mixins.CreateModelMixin,
 
 
 class UserViewSet(CreateRetrieveListViewSet):
-    '''
+    """
     View для регистрации, вывода пользователей.
     Добавлены поинты me, set_password.
     Добавлен get_serializer_class для исп.разных сериализаторов
-    '''
+    """
 
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializers
