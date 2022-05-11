@@ -57,30 +57,3 @@ class UserSerializers(serializers.ModelSerializer):
             ).exists()
         return False
 
-
-# class FollowSerializer(serializers.ModelSerializer):
-#     """ Подписка """
-
-#     is_subscribed = serializers.SerializerMethodField()
-#     recipes_count = serializers.SerializerMethodField()
-#     recipes = RecipeForFollowSerializer(many=True)
-
-#     class Meta:
-#         model = User
-#         fields = ('email', 'id', 'username', 'first_name', 'last_name',
-#                   'is_subscribed', 'recipes', 'recipes_count')
-#         read_only_fields = ('email', 'id', 'username', 'first_name',
-#                             'last_name', 'is_subscribed', 'recipes',
-#                             'recipes_count')
-
-#     def get_is_subscribed(self, follow):
-#         user = self.context['request'].user
-#         if user.is_authenticated:
-#             return Follow.objects.filter(
-#                 author=user,
-#                 user=follow
-#             ).exists()
-#         return False
-
-#     def get_recipes_count(self, follow):
-#         return Recipe.objects.filter(author=follow.author).count()

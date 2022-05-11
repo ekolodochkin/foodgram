@@ -1,12 +1,13 @@
 import base64
-
 from django.core.files.base import ContentFile
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from user.serializers import UserSerializers
-
-from .models import (AmountIngredient, Favorite, Ingredient, Recipe,
+from django.contrib.auth import get_user_model
+from .models import (AmountIngredient, Favorite, Follow, Ingredient, Recipe,
                      ShoppingList, Tag)
+
+User = get_user_model()
 
 
 class TagSerializers(serializers.ModelSerializer):
@@ -89,7 +90,7 @@ class RecipeSerializers(serializers.ModelSerializer):
         for ingredient in ingredients_data:
             AmountIngredient.objects.create(
                 recipe=recipe,
-                amount = ingredients_data.get('amount'),
+                amount=ingredients_data.get('amount'),
                 ingredient_id=ingredient.get('id')
             )
 
@@ -112,7 +113,7 @@ class RecipeSerializers(serializers.ModelSerializer):
         instance.tags.clear()
         tags_data = self.initial_data.get('tags')
         instance.tags.set(tags_data)
-        IngredientAmount.objects.filter(recipe=instance).all().delete()
+        AmountIngredient.objects.filter(recipe=instance).all().delete()
         self.create_ingredients(validated_data.get('ingredients'), instance)
         instance.save()
         return instance
@@ -127,3 +128,31 @@ class RecipeForFollowSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
         read_only_fields = ('id', 'name', 'image', 'cooking_time')
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    """ Подписка """
+
+    is_subscribed = serializers.SerializerMethodField()
+    recipes_count = serializers.SerializerMethodField()
+    recipes = RecipeForFollowSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = ('email', 'id', 'username', 'first_name', 'last_name',
+                  'is_subscribed', 'recipes', 'recipes_count')
+        read_only_fields = ('email', 'id', 'username', 'first_name',
+                            'last_name', 'is_subscribed', 'recipes',
+                            'recipes_count')
+
+    def get_is_subscribed(self, follow):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Follow.objects.filter(
+                author=user,
+                user=follow
+            ).exists()
+        return False
+
+    def get_recipes_count(self, follow):
+        return Recipe.objects.filter(author=follow.author).count()
