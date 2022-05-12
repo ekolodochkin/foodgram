@@ -41,7 +41,7 @@ class Ingredient(models.Model):
     """ -- Ингредиенты -- """
 
     name = models.CharField('Ингредиент', max_length=200)
-    measurement_unit = models.CharField('Ед.измерения веса')
+    measurement_unit = models.CharField('Ед.измерения веса', max_length=50)
 
     class Meta:
         verbose_name = 'Ингредиент'
