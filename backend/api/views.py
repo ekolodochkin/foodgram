@@ -25,4 +25,24 @@ class RecipeViewSet(viewsets.ModelViewSet):
     pagination_class = MyPagination
     serializer_class = RecipeSerializers
 
+    # @action(
+    #     methods=[],
+    #     detail=,
+    #     permission_classes=[],
+    # )
+    # def download_shopping_cart(self, request):
+
+    # @action(
+    #     methods=[],
+    #     detail=,
+    #     permission_classes=[],
+    # )
+    # def shopping_cart(self, request, id):
+
+    # @action(
+    #     methods=[],
+    #     detail=,
+    #     permission_classes=[],
+    # )
+    # def favorite(self, request, id):
 
