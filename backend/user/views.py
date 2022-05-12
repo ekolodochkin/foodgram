@@ -5,7 +5,6 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import CustomUser
-from .permissions import ForAuthUserOrAllowAny
 from .serializers import UserRegSerializers, UserSerializers
 
 
@@ -26,7 +25,6 @@ class UserViewSet(CreateRetrieveListViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializers
     pagination_class = MyPagination
-    permission_classes = [ForAuthUserOrAllowAny]
     serializers = {
         'create': UserRegSerializers,
         'me': UserSerializers,
