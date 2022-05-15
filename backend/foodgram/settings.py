@@ -21,16 +21,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Apps
-    'api.apps.ApiConfig',
-    'user.apps.UserConfig',
-
     # Pip install
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
     'corsheaders',
     'django_filters',
+
+    # Apps
+    'api.apps.ApiConfig',
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
