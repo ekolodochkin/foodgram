@@ -36,12 +36,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
     # def download_shopping_cart(self, request):
 
     @action(
-        methods=['GET', 'DELETE'],
+        methods=['POST', 'DELETE'],
         detail=True,
         permission_classes=[permissions.IsAuthenticated],
     )
     def shopping_cart(self, request, pk):
-        if request.method == 'GET':
+        if request.method == 'POST':
             if ShoppingList.objects.filter(user=request.user, recipe__id=pk).exists():
                 return Response(
                     {'Error': 'Рецепт уже добавлен в список покупок'},
@@ -62,12 +62,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
             )
 
     @action(
-        methods=['GET', 'DELETE'],
+        methods=['POST', 'DELETE'],
         detail=True,
         permission_classes=[permissions.IsAuthenticated],
     )
     def favorite(self, request, pk):
-        if request.method == 'GET':
+        if request.method == 'POST':
             if Favorite.objects.filter(user=request.user, recipe__id=pk).exists():
                 return Response(
                     {'Error': 'Рецепт уже добавлен в избранное'},
