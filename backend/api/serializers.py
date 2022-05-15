@@ -119,7 +119,7 @@ class RecipeSerializers(serializers.ModelSerializer):
         return instance
 
 
-class RecipeForFollowSerializer(serializers.ModelSerializer):
+class PartRecipeSerializers(serializers.ModelSerializer):
     """ -- Рецепт для FollowSerializer -- """
 
     image = Base64Serializers()
@@ -135,7 +135,7 @@ class FollowSerializer(serializers.ModelSerializer):
 
     is_subscribed = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
-    recipes = RecipeForFollowSerializer(many=True)
+    recipes = PartRecipeSerializers(many=True)
 
     class Meta:
         model = User
