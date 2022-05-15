@@ -57,7 +57,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 shoppinglst.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response(
-                {'errors': 'Рецепт уже удален'},
+                {'Error': 'Вы уже удалили этот рецепт'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -83,6 +83,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 favorite.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response(
-                {'errors': 'Рецепт уже удален'},
+                {'Error': 'Вы уже удалили этот рецепт'},
                 status=status.HTTP_400_BAD_REQUEST
             )
