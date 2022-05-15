@@ -1,7 +1,6 @@
 from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from .models import Ingredient, Recipe, ShoppingList, Tag, Favorite
 from .pagination import MyPagination
 from .serializers import (IngredientSerializers, RecipeSerializers,
@@ -32,14 +31,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
     # @action(
     #     methods=[],
     #     detail=,
-    #     permission_classes=[IsAuthenticated],
+    #     permission_classes=[permissions.IsAuthenticated],
     # )
     # def download_shopping_cart(self, request):
 
     @action(
         methods=['GET', 'DELETE'],
         detail=True,
-        permission_classes=[IsAuthenticated],
+        permission_classes=[permissions.IsAuthenticated],
     )
     def shopping_cart(self, request, pk):
         if request.method == 'GET':
@@ -65,7 +64,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @action(
         methods=['GET', 'DELETE'],
         detail=True,
-        permission_classes=[IsAuthenticated],
+        permission_classes=[permissions.IsAuthenticated],
     )
     def favorite(self, request, pk):
         if request.method == 'GET':
