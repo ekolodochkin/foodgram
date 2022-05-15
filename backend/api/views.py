@@ -36,12 +36,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
     # )
     # def download_shopping_cart(self, request):
 
-    # @action(
-    #     methods=['GET', 'DELETE'],
-    #     detail=True,
-    #     permission_classes=[IsAuthenticated],
-    # )
-    # def shopping_cart(self, request, pk):
+    @action(
+        methods=['GET', 'DELETE'],
+        detail=True,
+        permission_classes=[IsAuthenticated],
+    )
+    def shopping_cart(self, request, pk):
 
 
     @action(
@@ -52,9 +52,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def favorite(self, request, pk):
         if request.method == 'GET':
             if Favorite.objects.filter(user=request.user, recipe__id=pk).exists():
-                return Response({
-                'errors': 'Рецепт уже добавлен в избранное'
-            }, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {'Error': 'Рецепт уже добавлен в избранное'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
             recipe = get_object_or_404(Recipe, id=pk)
             Favorite.objects.create(user=request.user, recipe=recipe)
             serializer = PartRecipeSerializers(recipe)
@@ -64,7 +65,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             if favorite.exists():
                 favorite.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
-            return Response({
-                'errors': 'Рецепт уже удален'
-            }, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(
+                {'errors': 'Рецепт уже удален'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
