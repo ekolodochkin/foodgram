@@ -2,7 +2,7 @@ from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import Ingredient, Recipe, Tag, Favorite
+from .models import Ingredient, Recipe, ShoppingList, Tag, Favorite
 from .pagination import MyPagination
 from .serializers import (IngredientSerializers, RecipeSerializers,
                           TagSerializers, PartRecipeSerializers)
@@ -42,7 +42,25 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=[IsAuthenticated],
     )
     def shopping_cart(self, request, pk):
-
+        if request.method == 'GET':
+            if ShoppingList.objects.filter(user=request.user, recipe__id=pk).exists():
+                return Response(
+                    {'Error': 'Рецепт уже добавлен в список покупок'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            recipe = get_object_or_404(Recipe, id=pk)
+            ShoppingList.objects.create(user=request.user, recipe=recipe)
+            serializer = PartRecipeSerializers(recipe)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if request.method == 'DELETE':
+            shoppinglst = ShoppingList.objects.filter(user=request.user, recipe__id=pk)
+            if shoppinglst.exists():
+                shoppinglst.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(
+                {'errors': 'Рецепт уже удален'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
     @action(
         methods=['GET', 'DELETE'],
