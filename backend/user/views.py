@@ -1,9 +1,12 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 from api.pagination import MyPagination
 from djoser.serializers import SetPasswordSerializer
 from rest_framework import mixins, permissions, status, viewsets, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from api.serializers import FollowSerializer
+from api.models import Follow
 from .models import CustomUser
 from .serializers import UserRegSerializers, UserSerializers
 
@@ -79,4 +82,37 @@ class UserViewSet(CreateRetrieveListViewSet):
 class SubscribeView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def post()
+    def post(self, request, user_id):
+        subscribe_user = get_object_or_404(CustomUser, id=user_id)
+        double_subscribe = Follow.objects.filter(
+            author=request.user,
+            user=subscribe_user
+        ).exists()
+        if request.user.id == int(user_id):
+            error = {'errors': 'Невозможно подписаться на самого себя'}
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
+        elif double_subscribe:
+            error = {'errors': 'Вы уже подписаны на этого пользователя'}
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
+        Follow.objects.create(
+            author=request.user,
+            user=subscribe_user
+        )
+        serializer = FollowSerializer(
+            subscribe_user,
+            context={'request': request}
+        )
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def delete(self, request, user_id):
+        subscribe_user = get_object_or_404(CustomUser, id=user_id)
+        try:
+            subscribe = Follow.objects.get(
+                author=request.user,
+                user=subscribe_user
+            )
+        except ObjectDoesNotExist:
+            error = {'errors': 'Вы не подписаны на этого пользователя'}
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
+        subscribe.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

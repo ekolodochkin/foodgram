@@ -1,4 +1,4 @@
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, FileExtensionValidator
 from django.db import models
 from user.models import CustomUser
 
@@ -67,7 +67,11 @@ class Recipe(models.Model):
         verbose_name='Автор'
     )
     name = models.CharField('Название рецепта', max_length=200)
-    image = models.ImageField('Фото', upload_to='image_recipes/')
+    image = models.ImageField(
+        'Фото',
+        upload_to='image_recipes/',
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png'])]
+    )
     text = models.TextField('Описание', max_length=1000)
     ingredients = models.ManyToManyField(
         Ingredient,
