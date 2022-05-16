@@ -10,7 +10,6 @@ from .models import Favorite, Ingredient, Recipe, ShoppingList, Tag
 from .pagination import MyPagination
 
 
-
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializers

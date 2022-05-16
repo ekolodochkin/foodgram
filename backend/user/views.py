@@ -1,12 +1,13 @@
+from api.models import Follow
+from api.pagination import MyPagination
+from api.serializers import FollowSerializer
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
-from api.pagination import MyPagination
 from djoser.serializers import SetPasswordSerializer
-from rest_framework import mixins, permissions, status, viewsets, views
+from rest_framework import mixins, permissions, status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from api.serializers import FollowSerializer
-from api.models import Follow
+
 from .models import CustomUser
 from .serializers import UserRegSerializers, UserSerializers
 
