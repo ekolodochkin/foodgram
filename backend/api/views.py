@@ -1,13 +1,14 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Ingredient, Recipe, ShoppingList, Tag, Favorite
-from .pagination import MyPagination
-from .serializers import (IngredientSerializers, RecipeSerializers,
-                          TagSerializers, PartRecipeSerializers)
-from django.shortcuts import get_object_or_404
 
-# from .permissions import 
+from api.serializers import (IngredientSerializers, PartRecipeSerializers,
+                             RecipeSerializers, TagSerializers)
+
+from .models import Favorite, Ingredient, Recipe, ShoppingList, Tag
+from .pagination import MyPagination
+
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -44,7 +45,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if request.method == 'POST':
             if ShoppingList.objects.filter(user=request.user, recipe__id=pk).exists():
                 return Response(
-                    {'Error': 'Рецепт уже добавлен в список покупок'},
+                    {'errors': 'Рецепт уже добавлен в список покупок'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             recipe = get_object_or_404(Recipe, id=pk)
@@ -57,7 +58,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 shoppinglst.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response(
-                {'Error': 'Вы уже удалили этот рецепт'},
+                {'errors': 'Вы уже удалили этот рецепт'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -70,7 +71,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if request.method == 'POST':
             if Favorite.objects.filter(user=request.user, recipe__id=pk).exists():
                 return Response(
-                    {'Error': 'Рецепт уже добавлен в избранное'},
+                    {'errors': 'Рецепт уже добавлен в избранное'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             recipe = get_object_or_404(Recipe, id=pk)
@@ -83,6 +84,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 favorite.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response(
-                {'Error': 'Вы уже удалили этот рецепт'},
+                {'errors': 'Вы уже удалили этот рецепт'},
                 status=status.HTTP_400_BAD_REQUEST
             )

@@ -1,9 +1,11 @@
 import base64
+
+from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from user.serializers import UserSerializers
-from django.contrib.auth import get_user_model
+
 from .models import (AmountIngredient, Favorite, Follow, Ingredient, Recipe,
                      ShoppingList, Tag)
 
@@ -131,7 +133,7 @@ class PartRecipeSerializers(serializers.ModelSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
-    """ Подписка """
+    """ Подписка на автора """
 
     is_subscribed = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
@@ -155,4 +157,4 @@ class FollowSerializer(serializers.ModelSerializer):
         return False
 
     def get_recipes_count(self, follow):
-        return Recipe.objects.filter(author=follow.author).count()
+        return follow.recipes.count()

@@ -1,9 +1,9 @@
 from api.pagination import MyPagination
 from djoser.serializers import SetPasswordSerializer
-from rest_framework import mixins, permissions, status, viewsets
+from rest_framework import mixins, permissions, status, viewsets, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from api.serializers import FollowSerializer
 from .models import CustomUser
 from .serializers import UserRegSerializers, UserSerializers
 
@@ -18,7 +18,7 @@ class CreateRetrieveListViewSet(mixins.CreateModelMixin,
 class UserViewSet(CreateRetrieveListViewSet):
     """
     View для регистрации, вывода пользователей.
-    Добавлены поинты me, set_password.
+    Добавлены поинты me, set_password, subscriptions
     Добавлен get_serializer_class для исп.разных сериализаторов
     """
 
@@ -29,6 +29,7 @@ class UserViewSet(CreateRetrieveListViewSet):
         'create': UserRegSerializers,
         'me': UserSerializers,
         'set_password': SetPasswordSerializer,
+        'subscriptions': FollowSerializer,
     }
 
     def get_serializer_class(self):
@@ -62,3 +63,20 @@ class UserViewSet(CreateRetrieveListViewSet):
         )
         self.request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(
+        methods=['GET'],
+        detail=False,
+        permission_classes=[permissions.IsAuthenticated],
+    )
+    def subscriptions(self, request):
+        subscribe_users = CustomUser.objects.filter(follower__author=request.user)
+        serializer = self.get_serializer(subscribe_users, many=True)
+        page = self.paginate_queryset(serializer.data)
+        return self.get_paginated_response(page)
+
+
+class SubscribeView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post()
