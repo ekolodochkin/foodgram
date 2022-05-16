@@ -10,7 +10,7 @@ from rest_framework.response import Response
 
 from .models import CustomUser
 from .serializers import UserRegSerializers, UserSerializers
-
+from .permissions import AllowAnyGetPost, CurrentUserOrAdmin
 
 class CreateRetrieveListViewSet(mixins.CreateModelMixin,
                                 mixins.ListModelMixin,
@@ -29,6 +29,7 @@ class UserViewSet(CreateRetrieveListViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializers
     pagination_class = MyPagination
+    permission_classes = [AllowAnyGetPost]
     serializers = {
         'create': UserRegSerializers,
         'me': UserSerializers,
@@ -57,7 +58,7 @@ class UserViewSet(CreateRetrieveListViewSet):
     @action(
         methods=['POST'],
         detail=False,
-        permission_classes=[permissions.IsAuthenticated],
+        permission_classes=[CurrentUserOrAdmin],
     )
     def set_password(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
