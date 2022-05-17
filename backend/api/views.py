@@ -13,6 +13,7 @@ from api.serializers import (IngredientSerializers, PartRecipeSerializers,
 from .models import (AmountIngredient, Favorite, Ingredient, Recipe,
                      ShoppingList, Tag)
 from .pagination import MyPagination
+from .permissions import IsAuthOwnerOrReadOnly
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -29,6 +30,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     pagination_class = MyPagination
     serializer_class = RecipeSerializers
+    permission_classes = [IsAuthOwnerOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -69,7 +71,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             pdf.drawString(
                 50,
                 height,
-                f"{name} - {data['amount']} {data['measurement_unit']}"
+                f"{name} ({data['measurement_unit']}) - {data['amount']} "
             )
             height -= 25
         pdf.showPage()
