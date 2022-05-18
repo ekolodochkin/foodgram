@@ -14,6 +14,7 @@ from .models import (AmountIngredient, Favorite, Ingredient, Recipe,
                      ShoppingList, Tag)
 from .pagination import MyPagination
 from .permissions import IsAuthOwnerOrReadOnly
+from .filters import IngredientFilter, RecipeFilters
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -24,6 +25,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializers
+    filterset_class = IngredientFilter
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -31,6 +33,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     pagination_class = MyPagination
     serializer_class = RecipeSerializers
     permission_classes = [IsAuthOwnerOrReadOnly]
+    filterset_class = RecipeFilters
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
