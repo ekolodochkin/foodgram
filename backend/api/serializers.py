@@ -1,7 +1,5 @@
-import base64
-
+from drf_extra_fields.fields import Base64ImageField
 from django.contrib.auth import get_user_model
-from django.core.files.base import ContentFile
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from user.serializers import UserSerializers
@@ -41,34 +39,17 @@ class AmountIngredientSerializers(serializers.ModelSerializer):
     class Meta:
         model = AmountIngredient
         fields = ('id', 'name', 'measurement_unit', 'amount')
-        validators = [
-            UniqueTogetherValidator(
-                queryset=AmountIngredient.objects.all(),
-                fields=['ingredient', 'recipe']
-            )
-        ]
-
-
-class Base64Serializers(serializers.ImageField):
-    """ -- Кодировка картинки -- """
-
-    def from_native(self, data):
-        if isinstance(data, basestring) and data.startswith('data:image'):
-            format, imgstr = data.split(';base64,')
-            ext = format.split('/')[-1]
-            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-        return super(Base64Serializers, self).from_native(data)
 
 
 class RecipeSerializers(serializers.ModelSerializer):
     """ -- Список Рецептов -- """
 
     author = UserSerializers(read_only=True)
-    ingredients = AmountIngredientSerializers(source='amountingredient_set', read_only=True, many=True)
-    tags = TagSerializers(many=True)
+    ingredients = AmountIngredientSerializers(source='recipe_amount', many=True)
+    tags = TagSerializers(read_only=True, many=True)
     is_favorited = serializers.SerializerMethodField(read_only=True)
     is_in_shopping_cart = serializers.SerializerMethodField(read_only=True)
-    image = Base64Serializers()
+    image = Base64ImageField()
 
     class Meta:
         model = Recipe
@@ -97,6 +78,7 @@ class RecipeSerializers(serializers.ModelSerializer):
             )
 
     def create(self, validated_data):
+        print(validated_data)
         image_data = validated_data.pop('image')
         ingredients_data = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(image=image_data, **validated_data)
@@ -124,7 +106,7 @@ class RecipeSerializers(serializers.ModelSerializer):
 class PartRecipeSerializers(serializers.ModelSerializer):
     """ -- Рецепт для FollowSerializer -- """
 
-    image = Base64Serializers()
+    image = Base64ImageField()
 
     class Meta:
         model = Recipe
