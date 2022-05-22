@@ -70,7 +70,6 @@ class Recipe(models.Model):
     image = models.ImageField(
         'Фото',
         upload_to='image_recipes/',
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png'])]
     )
     text = models.TextField('Описание', max_length=1000)
     ingredients = models.ManyToManyField(
@@ -194,11 +193,13 @@ class AmountIngredient(models.Model):
         Ingredient,
         on_delete=models.CASCADE,
         verbose_name='Ингридиент',
+        related_name='recipe_amount',
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
         verbose_name='Рецепт',
+        related_name='recipe_amount',
     )
     amount = models.PositiveIntegerField(
         'Количество',
