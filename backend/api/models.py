@@ -1,4 +1,4 @@
-from django.core.validators import FileExtensionValidator, MinValueValidator
+from django.core.validators import MinValueValidator
 from django.db import models
 from user.models import CustomUser
 
@@ -75,7 +75,6 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField(
         Ingredient,
         through='AmountIngredient',
-        related_name='recipes',
         verbose_name='Ингредиенты'
     )
     tags = models.ManyToManyField(
@@ -193,13 +192,11 @@ class AmountIngredient(models.Model):
         Ingredient,
         on_delete=models.CASCADE,
         verbose_name='Ингридиент',
-        related_name='recipe_amount',
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
         verbose_name='Рецепт',
-        related_name='recipe_amount',
     )
     amount = models.PositiveIntegerField(
         'Количество',
