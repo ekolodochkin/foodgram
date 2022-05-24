@@ -78,7 +78,6 @@ class ProductSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
         queryset=Ingredient.objects.all(),
     )
-    # amount = serializers.IntegerField()
 
     class Meta:
         model = AmountIngredient
@@ -91,12 +90,10 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     ingredients = ProductSerializer(source='amountingredient_set', many=True)
     author = UserSerializers(read_only=True)
     image = Base64ImageField()
-    cooking_time = serializers.IntegerField(min_value=0)
 
     class Meta:
         model = Recipe
         fields = '__all__'
-        read_only_fields = ('author',)
 
     def create(self, validated_data):
         image_data = validated_data.pop('image')
@@ -124,7 +121,12 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         tags_data = self.initial_data.get('tags')
         instance.tags.set(tags_data)
         AmountIngredient.objects.filter(recipe=instance).all().delete()
-        self.create_ingredients(validated_data.get('ingredients'), instance)
+        for ingredient in validated_data.get('amountingredient_set'):
+            AmountIngredient.objects.create(
+                recipe_id=instance.id,
+                amount=ingredient['amount'],
+                ingredient_id=ingredient['id'].id
+            )
         instance.save()
         return instance
 
