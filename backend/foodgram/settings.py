@@ -14,6 +14,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
+# Джанго 4.0 для доверенных источников
+CSRF_TRUSTED_ORIGINS = ['http://*.localhost', 'http://*.127.0.0.1:8000']
 
 
 INSTALLED_APPS = [
@@ -25,16 +27,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Apps
+    'api.apps.ApiConfig',
+    'user.apps.UserConfig',
+
     # Pip install
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
     'corsheaders',
     'django_filters',
-
-    # Apps
-    'api.apps.ApiConfig',
-    'user.apps.UserConfig',
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
