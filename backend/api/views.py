@@ -8,7 +8,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from api.serializers import (IngredientSerializers, PartRecipeSerializers,
-                             RecipeSerializers, TagSerializers)
+                             RecipeSerializers, RecipeCreateSerializer, TagSerializers)
 
 from .models import (AmountIngredient, Favorite, Ingredient, Recipe,
                      ShoppingList, Tag)
@@ -31,9 +31,13 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     pagination_class = MyPagination
-    serializer_class = RecipeSerializers
     permission_classes = [IsAuthOwnerOrReadOnly]
     filterset_class = RecipeFilters
+
+    def get_serializer_class(self):
+        if self.action in ('list', 'retrieve'):
+            return RecipeSerializers
+        return RecipeCreateSerializer
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -80,7 +84,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         pdf.showPage()
         pdf.save()
         return response
-
 
     @action(
         methods=['POST', 'DELETE'],
