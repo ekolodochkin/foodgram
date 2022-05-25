@@ -1,6 +1,7 @@
-from api.models import Follow
 from django.contrib.auth import get_user_model
 from rest_framework import serializers, validators
+
+from api.models import Follow
 
 User = get_user_model()
 
@@ -55,4 +56,3 @@ class UserSerializers(serializers.ModelSerializer):
                 user=subscribe
             ).exists()
         return False
-

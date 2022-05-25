@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from user.models import CustomUser
 
 from .models import (AmountIngredient, Favorite, Follow, Ingredient, Recipe,

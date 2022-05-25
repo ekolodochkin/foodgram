@@ -1,6 +1,3 @@
-from api.models import Follow
-from api.pagination import MyPagination
-from api.serializers import FollowSerializer
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from djoser.serializers import SetPasswordSerializer
@@ -8,9 +5,14 @@ from rest_framework import mixins, permissions, status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from api.models import Follow
+from api.pagination import MyPagination
+from api.serializers import FollowSerializer
+
 from .models import CustomUser
-from .serializers import UserRegSerializers, UserSerializers
 from .permissions import AllowAnyGetPost, CurrentUserOrAdmin
+from .serializers import UserRegSerializers, UserSerializers
+
 
 class CreateRetrieveListViewSet(mixins.CreateModelMixin,
                                 mixins.ListModelMixin,
@@ -75,7 +77,9 @@ class UserViewSet(CreateRetrieveListViewSet):
         permission_classes=[permissions.IsAuthenticated],
     )
     def subscriptions(self, request):
-        subscribe_users = CustomUser.objects.filter(follower__author=request.user)
+        subscribe_users = CustomUser.objects.filter(
+            follower__author=request.user
+        )
         serializer = self.get_serializer(subscribe_users, many=True)
         page = self.paginate_queryset(serializer.data)
         return self.get_paginated_response(page)

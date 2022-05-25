@@ -8,13 +8,14 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from api.serializers import (IngredientSerializers, PartRecipeSerializers,
-                             RecipeSerializers, RecipeCreateSerializer, TagSerializers)
+                             RecipeCreateSerializer, RecipeSerializers,
+                             TagSerializers)
 
+from .filters import IngredientFilter, RecipeFilters
 from .models import (AmountIngredient, Favorite, Ingredient, Recipe,
                      ShoppingList, Tag)
 from .pagination import MyPagination
 from .permissions import IsAuthOwnerOrReadOnly
-from .filters import IngredientFilter, RecipeFilters
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -66,7 +67,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 else:
                     shopping_list[name]['amount'] += amount
         response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="ShoppingList.pdf"'
+        response['Content-Disposition'] = ('attachment; '
+                                           'filename="ShoppingList.pdf"')
         pdf = canvas.Canvas(response)
         pdfmetrics.registerFont(TTFont('Verdana', 'Verdana.ttf'))
         pdf.setTitle('Список покупок')
@@ -92,7 +94,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def shopping_cart(self, request, pk):
         if request.method == 'POST':
-            if ShoppingList.objects.filter(user=request.user, recipe__id=pk).exists():
+            if ShoppingList.objects.filter(
+                user=request.user,
+                recipe__id=pk
+            ).exists():
                 return Response(
                     {'errors': 'Рецепт уже добавлен в список покупок'},
                     status=status.HTTP_400_BAD_REQUEST
@@ -102,7 +107,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
             serializer = PartRecipeSerializers(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         if request.method == 'DELETE':
-            shoppinglst = ShoppingList.objects.filter(user=request.user, recipe__id=pk)
+            shoppinglst = ShoppingList.objects.filter(
+                user=request.user,
+                recipe__id=pk
+            )
             if shoppinglst.exists():
                 shoppinglst.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
@@ -118,7 +126,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def favorite(self, request, pk):
         if request.method == 'POST':
-            if Favorite.objects.filter(user=request.user, recipe__id=pk).exists():
+            if Favorite.objects.filter(
+                user=request.user,
+                recipe__id=pk
+            ).exists():
                 return Response(
                     {'errors': 'Рецепт уже добавлен в избранное'},
                     status=status.HTTP_400_BAD_REQUEST
@@ -128,7 +139,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
             serializer = PartRecipeSerializers(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         elif request.method == 'DELETE':
-            favorite = Favorite.objects.filter(user=request.user, recipe__id=pk)
+            favorite = Favorite.objects.filter(
+                user=request.user,
+                recipe__id=pk
+            )
             if favorite.exists():
                 favorite.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
