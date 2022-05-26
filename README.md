@@ -6,7 +6,12 @@
 - база sqlite потому что не понял на каком этапе нужно подключать posgtres
 - сайт функционирует как в тз
 - есть в коде места где я написал примерно одно и тоже, но сериализатор рецепта по-другому не работает.
-- если будешь поднимать контейнеры в env добавить только секрет_кей_джанго, постгре не нужно, если ошибка просто закомменть в настройках датабэйс постргес.
+- если будешь поднимать контейнеры в env добавить только секрет_кей_джанго, постгре не нужно, если ошибка просто закомменть в настройках датабэйс постргес. В контейнере backend:
+  - docker-compose exec backend python manage.py collectstatic --no-input
+  - docker-compose exec backend python manage.py makemigrations
+  - docker-compose exec backend python manage.py migrate --noinput
+  - docker-compose exec backend python manage.py createsuperuser
+  - Для загрузки ингредиентов docker-compose exec backend python manage.py load_ingredients
 - Не удивлюсь, если прилетит куча валидаторов, ибо в ТЗ о них речи не было.
 - requirements не проверял просто зафризил что стояло.
 - Verdana.ttf файл шрифтов для reportlub используется в представление загрузки списка покупок.
