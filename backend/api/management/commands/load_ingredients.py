@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         with open(
-            'D:/Dev/foodgram-project-react/data/ingredients.json',
+            'data/ingredients.json',
             encoding='utf-8'
         ) as file:
             ingredients = json.load(file)
