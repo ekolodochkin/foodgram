@@ -1,24 +1,16 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import get_object_or_404
-from djoser.serializers import SetPasswordSerializer
-from rest_framework import mixins, permissions, status, views, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-
 from api.models import Follow
 from api.pagination import MyPagination
 from api.serializers import FollowSerializer
+from django.shortcuts import get_object_or_404
+from djoser.serializers import SetPasswordSerializer
+from rest_framework import permissions, status, views
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
+from .mixins import CreateRetrieveListViewSet
 from .models import CustomUser
 from .permissions import AllowAnyGetPost, CurrentUserOrAdmin
 from .serializers import UserRegSerializers, UserSerializers
-
-
-class CreateRetrieveListViewSet(mixins.CreateModelMixin,
-                                mixins.ListModelMixin,
-                                mixins.RetrieveModelMixin,
-                                viewsets.GenericViewSet):
-    pass
 
 
 class UserViewSet(CreateRetrieveListViewSet):
@@ -117,7 +109,7 @@ class SubscribeView(views.APIView):
                 author=request.user,
                 user=subscribe_user
             )
-        except ObjectDoesNotExist:
+        except Follow.DoesNotExist:
             error = {'errors': 'Вы не подписаны на этого пользователя'}
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
         subscribe.delete()
