@@ -9,7 +9,7 @@ router.register('users', UserViewSet)
 
 urlpatterns = [
     path(
-        'users/<user_id>/subscribe/',
+        'users/<int:user_id>/subscribe/',
         SubscribeView.as_view(),
     ),
     path('', include(router.urls)),
