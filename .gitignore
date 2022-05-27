@@ -132,7 +132,7 @@ dmypy.json
 .idea
 
 # Settings vscode
-.vscode/
+.vscode
 
 # Static and media
 static/
