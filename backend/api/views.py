@@ -6,7 +6,7 @@ from reportlab.pdfgen import canvas
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from django.db.models import Sum
 from api.serializers import (IngredientSerializers, PartRecipeSerializers,
                              RecipeCreateSerializer, RecipeSerializers,
                              TagSerializers)
@@ -49,23 +49,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=[permissions.IsAuthenticated],
     )
     def download_shopping_cart(self, request):
-        user = request.user
-        shopping_cart = user.shoppinglist.all()
-        shopping_list = {}
-        for item in shopping_cart:
-            recipe = item.recipe
-            ingredients = AmountIngredient.objects.filter(recipe=recipe)
-            for ingredient in ingredients:
-                name = ingredient.ingredient.name
-                measurement_unit = ingredient.ingredient.measurement_unit
-                amount = ingredient.amount
-                if name not in shopping_list:
-                    shopping_list[name] = {
-                        'measurement_unit': measurement_unit,
-                        'amount': amount
-                    }
-                else:
-                    shopping_list[name]['amount'] += amount
+        ingredients = AmountIngredient.objects.filter(
+            recipe__shoppinglist__user=request.user
+        ).values(
+            'ingredient__name', 'ingredient__measurement_unit'
+        ).annotate(ingredient_total=Sum('amount'))
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = ('attachment; '
                                            'filename="ShoppingList.pdf"')
@@ -76,11 +64,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
         pdf.drawString(200, 770, 'Список покупок:')
         pdf.setFont('Verdana', size=16)
         height = 670
-        for name, data in shopping_list.items():
+        for ing in ingredients:
             pdf.drawString(
                 50,
                 height,
-                f"{name} ({data['measurement_unit']}) - {data['amount']} "
+                (
+                    f"{ing['ingredient__name']} - "
+                    f"{ing['ingredient_total']} "
+                    f"{ing['ingredient__measurement_unit']}"
+                )
             )
             height -= 25
         pdf.showPage()
