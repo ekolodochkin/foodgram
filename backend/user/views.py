@@ -1,5 +1,5 @@
 from api.models import Follow
-from api.pagination import MyPagination
+from api.pagination import Pagination
 from api.serializers import FollowSerializer
 from django.shortcuts import get_object_or_404
 from djoser.serializers import SetPasswordSerializer
@@ -22,7 +22,7 @@ class UserViewSet(CreateRetrieveListViewSet):
 
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializers
-    pagination_class = MyPagination
+    pagination_class = Pagination
     permission_classes = [AllowAnyGetPost]
     serializers = {
         'create': UserRegSerializers,

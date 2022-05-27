@@ -14,7 +14,7 @@ from api.serializers import (IngredientSerializers, PartRecipeSerializers,
 from .filters import IngredientFilter, RecipeFilters
 from .models import (AmountIngredient, Favorite, Ingredient, Recipe,
                      ShoppingList, Tag)
-from .pagination import MyPagination
+from .pagination import Pagination
 from .permissions import IsAuthOwnerOrReadOnly
 
 
@@ -31,7 +31,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
-    pagination_class = MyPagination
+    pagination_class = Pagination
     permission_classes = [IsAuthOwnerOrReadOnly]
     filterset_class = RecipeFilters
 
