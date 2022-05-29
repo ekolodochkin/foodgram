@@ -137,6 +137,3 @@ dmypy.json
 # Static and media
 static/
 media/
-
-# Временные файлы
-temp_readme.md
