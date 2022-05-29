@@ -2,10 +2,10 @@ from django.contrib.auth import get_user_model
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from user.serializers import UserSerializers
 
-from .models import (AmountIngredient, Favorite, Follow, Ingredient, Recipe,
-                     ShoppingList, Tag)
+from api.models import (AmountIngredient, Favorite, Follow, Ingredient, Recipe,
+                        ShoppingList, Tag)
+from user.serializers import UserSerializers
 
 User = get_user_model()
 
@@ -161,7 +161,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         self.add_tags(tag_data, recipe)
         self.add_ingredients(ingredients_data, recipe)
         return recipe
-    
+
     def to_representation(self, instance):
         request = self.context.get('request')
         context = {'request': request}

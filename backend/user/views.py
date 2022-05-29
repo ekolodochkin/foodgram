@@ -1,11 +1,12 @@
-from api.models import Follow
-from api.pagination import Pagination
-from api.serializers import FollowSerializer
 from django.shortcuts import get_object_or_404
 from djoser.serializers import SetPasswordSerializer
 from rest_framework import permissions, status, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+from api.models import Follow
+from api.pagination import Pagination
+from api.serializers import FollowSerializer
 
 from .mixins import CreateRetrieveListViewSet
 from .models import CustomUser
