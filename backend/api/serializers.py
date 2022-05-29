@@ -105,6 +105,42 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = '__all__'
 
+    def validate(self, data):
+        ingredients = self.initial_data.get('ingredients')
+        ingredients_list = []
+        for ingredient in ingredients:
+            ingredient_id = ingredient['id']
+            if ingredient_id in ingredients_list:
+                raise serializers.ValidationError({
+                    'ingredients': 'Такой ингредиент уже выбран'
+                })
+            ingredients_list.append(ingredient_id)
+            amount = ingredient['amount']
+            if int(amount) <= 0:
+                raise serializers.ValidationError({
+                    'amount': 'Количество не может быть отрицательным'
+                })
+
+        tags = self.initial_data.get('tags')
+        if not tags:
+            raise serializers.ValidationError({
+                'tags': 'Нужно выбрать тэг'
+            })
+        tags_list = []
+        for tag in tags:
+            if tag in tags_list:
+                raise serializers.ValidationError({
+                    'tags': 'Такой тэг уже есть'
+                })
+            tags_list.append(tag)
+
+        cooking_time = self.initial_data.get('cooking_time')
+        if int(cooking_time) <= 0:
+            raise serializers.ValidationError({
+                'cooking_time': 'Время не может быть отрицательным'
+            })
+        return data
+
     def add_ingredients(self, ingredients_data, recipe):
         for ingredient in ingredients_data:
             AmountIngredient.objects.create(
@@ -125,6 +161,12 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         self.add_tags(tag_data, recipe)
         self.add_ingredients(ingredients_data, recipe)
         return recipe
+    
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        context = {'request': request}
+        return RecipeSerializers(
+            instance, context=context).data
 
     def update(self, instance, validated_data):
         instance.tags.clear()
