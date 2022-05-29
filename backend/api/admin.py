@@ -1,9 +1,8 @@
 from django.contrib import admin
 
+from api.models import (AmountIngredient, Favorite, Follow, Ingredient, Recipe,
+                        ShoppingList, Tag)
 from user.models import CustomUser
-
-from .models import (AmountIngredient, Favorite, Follow, Ingredient, Recipe,
-                     ShoppingList, Tag)
 
 
 @admin.register(CustomUser)
