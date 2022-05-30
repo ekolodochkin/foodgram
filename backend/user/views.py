@@ -7,11 +7,10 @@ from rest_framework.response import Response
 from api.models import Follow
 from api.pagination import Pagination
 from api.serializers import FollowSerializer
-
-from .mixins import CreateRetrieveListViewSet
-from .models import CustomUser
-from .permissions import AllowAnyGetPost, CurrentUserOrAdmin
-from .serializers import UserRegSerializers, UserSerializers
+from user.mixins import CreateRetrieveListViewSet
+from user.models import CustomUser
+from user.permissions import AllowAnyGetPost, CurrentUserOrAdmin
+from user.serializers import UserRegSerializers, UserSerializers
 
 
 class UserViewSet(CreateRetrieveListViewSet):
