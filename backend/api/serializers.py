@@ -106,7 +106,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-        ingredients = self.initial_data.get('ingredients')
+        ingredients = data.get('ingredients')
         ingredients_list = []
         for ingredient in ingredients:
             ingredient_id = ingredient['id']
@@ -121,7 +121,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
                     'amount': 'Количество не может быть отрицательным'
                 })
 
-        tags = self.initial_data.get('tags')
+        tags = data.get('tags')
         if not tags:
             raise serializers.ValidationError({
                 'tags': 'Нужно выбрать тэг'
@@ -134,7 +134,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
                 })
             tags_list.append(tag)
 
-        cooking_time = self.initial_data.get('cooking_time')
+        cooking_time = data.get('cooking_time')
         if int(cooking_time) <= 0:
             raise serializers.ValidationError({
                 'cooking_time': 'Время не может быть отрицательным'
