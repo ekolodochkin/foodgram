@@ -9,13 +9,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.getenv('SECRET_KEY_DJANGO')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
 # Джанго 4.0 для доверенных источников
-CSRF_TRUSTED_ORIGINS = ['http://*.localhost', 'http://*.127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = [
+    'http://*.localhost',
+    'http://*.127.0.0.1:8000',
+    'http://*.130.193.54.241'
+]
 
 
 INSTALLED_APPS = [
