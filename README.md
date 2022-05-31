@@ -25,9 +25,9 @@
 
 Зайдите в репозиторий на локальной машине и отправьте файлы на сервер.
 ```
-scp docker-compose.yaml <username>@<host>/home/<username>/docker-compose.yaml
+scp docker-compose.yaml <username>@<host>:/home/<username>/docker-compose.yaml
 sudo mkdir nginx
-scp default.conf <username>@<host>/home/<username>/nginx/default.conf
+scp default.conf <username>@<host>:/home/<username>/nginx/default.conf
 ```
 В репозитории на Гитхабе добавьте данные в `Settings -> Secrets -> Actions secrets`:
 ```
