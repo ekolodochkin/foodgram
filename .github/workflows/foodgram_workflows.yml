@@ -1,0 +1,7 @@
+name: foodgram_workflows
+
+on:
+  push:
+    branches:
+      - master
+
