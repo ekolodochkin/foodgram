@@ -1,4 +1,5 @@
 # Foodgram
+![Build Status](https://github.com/ekolodochkin/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 Это дипломный проект курса Яндекс.Практикум. Сервис для публикации рецептов. Позволяет размещать рецепты, есть возможность подписки на автора, добавлять рецепты в избранное, а также скачивать список ингредиентов к покупке в формате pdf.
 
@@ -20,14 +21,14 @@
 
 
 ### Подготовка для запуска workflow
-Отредактируйте файл `nginx/default.conf` и в строке `server_name` впишите IP виртуальной машины (сервера).  
-Скопируйте подготовленные файлы `docker-compose.yaml` и `nginx/default.conf` из вашего проекта на сервер:
+Отредактируйте файл `infra/nginx.conf` и в строке `server_name` впишите IP виртуальной машины (сервера).  
+Скопируйте подготовленные файлы `docker-compose.yaml` и `infra/nginx.conf` из вашего проекта на сервер:
 
 Зайдите в репозиторий на локальной машине и отправьте файлы на сервер.
 ```
 scp docker-compose.yaml <username>@<host>:/home/<username>/docker-compose.yaml
 sudo mkdir nginx
-scp default.conf <username>@<host>:/home/<username>/nginx/default.conf
+scp nginx.conf <username>@<host>:/home/<username>/nginx/nginx.conf
 ```
 В репозитории на Гитхабе добавьте данные в `Settings -> Secrets -> Actions secrets`:
 ```
@@ -77,7 +78,7 @@ sudo docker-compose exec backend python manage.py createsuperuser
 ```
 Чтобы загрузить список ингредиентов:
 ```
-docker-compose exec backend python manage.py load_ingredients
+sudo docker-compose exec backend python manage.py load_ingredients
 ```
 ## Права пользователей:
  - **Авторизованным доступно:**
@@ -117,7 +118,12 @@ docker-compose exec backend python manage.py load_ingredients
       - добавлять/удалять/редактировать теги.
 
 ## Ссылка на проект:
-- 
+- [сайт](http://130.193.54.241/recipes)
+- [админка](http://130.193.54.241/admin/)
+
+## Админ:
+ - почта: war20ck@mail.ru
+ - пароль: admin
 
 ## Авторы:
  - **[Evgenii Kolodochkin](https://github.com/ekolodochkin)** - Backend, Docker, GitHub Actions, Yandex.Cloud.
