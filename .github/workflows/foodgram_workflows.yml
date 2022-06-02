@@ -2,8 +2,8 @@ name: foodgram_workflows
 
 on:
   push:
-    branches:
-      - master
+    paths-ignore:
+      - '**/README.md'
 
 jobs:
   tests:
