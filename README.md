@@ -1,5 +1,5 @@
 # Foodgram
-![Build Status](https://github.com/ekolodochkin/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+![Build Status](https://github.com/ekolodochkin/foodgram-project-react/actions/workflows/foodgram_workflows.yml/badge.svg)
 
 Это дипломный проект курса Яндекс.Практикум. Сервис для публикации рецептов. Позволяет размещать рецепты, есть возможность подписки на автора, добавлять рецепты в избранное, а также скачивать список ингредиентов к покупке в формате pdf.
 
