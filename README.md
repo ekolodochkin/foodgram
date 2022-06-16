@@ -1,18 +1,7 @@
 # Foodgram
-![Build Status](https://github.com/ekolodochkin/foodgram-project-react/actions/workflows/foodgram_workflows.yml/badge.svg)
+![Build Status](https://github.com/ekolodochkin/foodgram/actions/workflows/foodgram_workflows.yml/badge.svg)
 
 Это дипломный проект курса Яндекс.Практикум. Сервис для публикации рецептов. Позволяет размещать рецепты, есть возможность подписки на автора, добавлять рецепты в избранное, а также скачивать список ингредиентов к покупке в формате pdf.
-
-## Стек:
-* [Python](https://www.python.org/)
-* [Django](https://www.djangoproject.com/)
-* [Django REST framework](https://www.django-rest-framework.org/)
-* [Djoser](https://djoser.readthedocs.io/en/latest/getting_started.html)
-* [PostgreSQL](https://www.postgresql.org/)
-* [Docker](https://www.docker.com/)
-* [Gunicorn](https://gunicorn.org/)
-* [Nginx](https://nginx.org/)
-* [Yandex.Cloud](https://cloud.yandex.ru)
 
 ## Workflow
 * tests - Проверка кода на соответствие стандарту PEP8 (с помощью пакета flake8) и запуск pytest. Дальнейшие шаги выполнятся только если push был в ветку master или main.
