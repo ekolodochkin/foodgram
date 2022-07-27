@@ -106,13 +106,6 @@ sudo docker-compose exec backend python manage.py load_ingredients
       - добавлять/удалять/редактировать ингредиенты.
       - добавлять/удалять/редактировать теги.
 
-## Ссылка на проект:
-- [сайт](http://130.193.54.241/recipes)
-- [админка](http://130.193.54.241/admin/)
-
-## Админ:
- - почта: war20ck@mail.ru
- - пароль: admin
 
 ## Авторы:
  - **[Evgenii Kolodochkin](https://github.com/ekolodochkin)** - Backend, Docker, GitHub Actions, Yandex.Cloud.
